@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import { areaBySlug, areas, services } from "../../data/site";
+
+export function getStaticPaths() {
+  return areas.map((area) => ({ params: { slug: area.slug } }));
+}
+
+const { slug } = Astro.params;
+const area = areaBySlug(slug ?? "");
+if (!area) {
+  throw new Error(`Missing area: ${slug}`);
+}
+
+const others = areas.filter((item) => item.slug !== area.slug).slice(0, 6);
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Areas", path: "/areas" },
+  { name: area.name, path: `/areas/${area.slug}` },
+];
+---
+
+<Base title={`Painters in ${area.name} | 777 Painting & Decorating`} description={area.description} crumbs={crumbs}>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/areas">Areas</a>
+      <span aria-hidden="true">/</span>
+      <span>{area.name}</span>
+    </nav>
+    <p class="eyebrow">Bedford painters</p>
+    <h1>Painting in {area.name}</h1>
+    <div class="prose">
+      {area.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <h2>Work we can do in {area.name}</h2>
+      <ul>
+        {services.map((service) => (
+          <li>
+            <a href={`/services/${service.slug}`}>{service.nav}</a>. {service.lede}
+          </li>
+        ))}
+      </ul>
+      <p>
+        Call <a href="tel:+447769387868">07769 387868</a> or <a href="/contact">send the job details</a>.
+        We are based at Unit 9, Market Hall, Bedford, MK40 1NS.
+      </p>
+    </div>
+    <h2>Other places nearby</h2>
+    <div class="area-grid">
+      {others.map((item) => <a href={`/areas/${item.slug}`}>{item.name}</a>)}
+    </div>
+  </article>
+</Base>

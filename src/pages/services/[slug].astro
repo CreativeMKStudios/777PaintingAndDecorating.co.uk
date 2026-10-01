@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import { serviceBySlug, services } from "../../data/site";
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = serviceBySlug(slug ?? "");
+if (!service) {
+  throw new Error(`Missing service: ${slug}`);
+}
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: service.nav, path: `/services/${service.slug}` },
+];
+---
+
+<Base title={service.title} description={service.description} crumbs={crumbs}>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/services">Services</a>
+      <span aria-hidden="true">/</span>
+      <span>{service.nav}</span>
+    </nav>
+    <p class="eyebrow">777 Painting &amp; Decorating</p>
+    <h1>{service.nav}</h1>
+    <div class="prose">
+      {service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <h2>What this includes</h2>
+      <ul>
+        {service.includes.map((item) => <li>{item}</li>)}
+      </ul>
+      <p>
+        <a href="/contact">Ask for a price</a> or call <a href="tel:+447769387868">07769 387868</a>.
+        You can also see <a href="/projects">photos of the work</a>.
+      </p>
+    </div>
+  </article>
+</Base>

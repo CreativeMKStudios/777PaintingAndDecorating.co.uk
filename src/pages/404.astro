@@ -1,0 +1,15 @@
+---
+import Base from "../layouts/Base.astro";
+
+const title = "Page not found | 777 Painting & Decorating";
+const description = "That page is not on the 777 Painting & Decorating site. Go back to the Bedford painters home page.";
+---
+
+<Base title={title} description={description} robots="noindex, follow">
+  <article class="wrap page-hero">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p class="intro">That address is not on this site. The painting pages are still here.</p>
+    <p><a href="/">Back to the home page</a></p>
+  </article>
+</Base>

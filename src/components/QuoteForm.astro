@@ -1,0 +1,58 @@
+---
+import { services, site } from "../data/site";
+
+interface Props {
+  variant?: "glass" | "solid";
+  id?: string;
+}
+
+const { variant = "glass", id = "quote" } = Astro.props;
+---
+
+<form
+  id={id}
+  class={variant === "glass" ? "glass-form" : "solid-form"}
+  action={`https://formsubmit.co/${site.email}`}
+  method="POST"
+>
+  <input type="hidden" name="_subject" value="Quote request from 777 Painting & Decorating website" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_next" value={`${site.url}/contact?sent=1`} />
+  <p class="hp" aria-hidden="true">
+    <label>Company<input name="_honey" tabindex="-1" autocomplete="off" /></label>
+  </p>
+  <div class="row">
+    <label class="field">
+      <span class="sr">Name</span>
+      <input name="name" type="text" autocomplete="name" placeholder="Name" required />
+    </label>
+    <label class="field">
+      <span class="sr">Email</span>
+      <input name="email" type="email" autocomplete="email" placeholder="Email" required />
+    </label>
+  </div>
+  <div class="row">
+    <label class="field">
+      <span class="sr">Phone number</span>
+      <input name="phone" type="tel" autocomplete="tel" placeholder="Phone Number" required />
+    </label>
+    <label class="field">
+      <span class="sr">Service</span>
+      <select name="service" required>
+        <option value="" selected disabled>Service</option>
+        {services.map((item) => <option value={item.nav}>{item.nav}</option>)}
+        <option value="Not sure yet">Not sure yet</option>
+      </select>
+    </label>
+  </div>
+  <label class="field">
+    <span class="sr">Subject</span>
+    <input name="subject" type="text" placeholder="Subject" required />
+  </label>
+  <label class="field">
+    <span class="sr">Message</span>
+    <textarea name="message" placeholder="Message" required></textarea>
+  </label>
+  <button class="btn" type="submit">Submit Message</button>
+</form>

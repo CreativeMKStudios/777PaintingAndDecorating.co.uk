@@ -1,0 +1,37 @@
+---
+import Logo from "./Logo.astro";
+import { nav } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="site-header">
+  <a class="brand" href="/">
+    <Logo />
+    <span class="brand-name">
+      <strong>777</strong>
+      <span>Painting &amp; Decorating</span>
+    </span>
+  </a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+    Menu
+  </button>
+  <nav id="site-nav" class="site-nav" aria-label="Main">
+    {
+      nav.map((item) => (
+        <a href={item.href} aria-current={path === item.href ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script is:inline>
+  const btn = document.querySelector(".nav-toggle");
+  const nav = document.querySelector("#site-nav");
+  btn?.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+</script>

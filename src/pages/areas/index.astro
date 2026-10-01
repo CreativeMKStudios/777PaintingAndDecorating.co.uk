@@ -1,0 +1,39 @@
+---
+import Base from "../../layouts/Base.astro";
+import { areas } from "../../data/site";
+
+const title = "Areas We Cover around Bedford | 777 Painting";
+const description =
+  "777 Painting & Decorating covers Bedford and nearby areas, including Kempston, Wixams, Bromham, Goldington and Cardington. Call 07769 387868.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Areas", path: "/areas" },
+  ]}
+>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Areas</span>
+    </nav>
+    <p class="eyebrow">Local painters</p>
+    <h1>Areas we cover</h1>
+    <p class="intro">
+      Our Google listing says Bedford and nearby areas. We work from Unit 9, Market Hall, so these places are a short drive, not a day trip. If your town is missing, ask. We would rather say no than pretend.
+    </p>
+    <div class="area-grid">
+      {
+        areas.map((area) => (
+          <a href={`/areas/${area.slug}`}>
+            {area.name}
+          </a>
+        ))
+      }
+    </div>
+  </article>
+</Base>
