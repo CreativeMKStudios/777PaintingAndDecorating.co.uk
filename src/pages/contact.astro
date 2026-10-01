@@ -1,0 +1,67 @@
+---
+import Base from "../layouts/Base.astro";
+import QuoteForm from "../components/QuoteForm.astro";
+import { addressLine, site } from "../data/site";
+
+const sent = Astro.url.searchParams.get("sent") === "1";
+const title = "Contact a Painter in Bedford | 777";
+const description =
+  "Call 777 Painting & Decorating on 07769 387868 or email mk40d@hotmail.com. Unit 9, Market Hall, Bedford, MK40 1NS. Open 24 hours.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ]}
+>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Contact</span>
+    </nav>
+    <p class="eyebrow">Bedford, MK40 1NS</p>
+    <h1>Contact us</h1>
+    {
+      sent && (
+        <p class="sent">
+          Thanks. Your message is on its way. If you need a quicker answer, call {site.phoneDisplay}.
+        </p>
+      )
+    }
+    <div class="split">
+      <div>
+        <div class="contact-panel">
+          <div><strong>Phone</strong></div>
+          <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
+          <div><strong>Email</strong></div>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <div><strong>Address</strong></div>
+          <div>{addressLine}</div>
+          <div>{site.country}</div>
+          <div><strong>Hours</strong></div>
+          <div>{site.hoursLabel}</div>
+          <div><a href={site.maps}>Open directions in Google Maps</a></div>
+        </div>
+        <p class="note">
+          In October 2026 our Google profile offers 10% off projects booked that month. Mention it when you get in touch.
+        </p>
+        <QuoteForm variant="solid" id="contact-form" />
+        <p class="note">
+          The form sends your name, phone, email and message so we can reply with a price. Read the <a href="/privacy">privacy note</a>.
+        </p>
+      </div>
+      <div>
+        <iframe
+          title="Map of 777 Painting & Decorating, Bedford"
+          src="https://maps.google.com/maps?q=Unit%209%20Market%20Hall%20Bedford%20MK40%201NS&z=16&output=embed"
+          style="width:100%;height:420px;border:0;border-radius:1rem;"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://777paintinganddecorating.co.uk/sitemap-index.xml

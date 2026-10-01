@@ -1,0 +1,101 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import logo from "../assets/google/logo-framed.jpg";
+import progress from "../assets/google/shop-progress.jpg";
+import cards from "../assets/google/cards.jpg";
+import { addressLine, reviews, site } from "../data/site";
+
+const title = "About Us | 777 Painting & Decorating Bedford";
+const description =
+  "777 Painting & Decorating is a painter in Bedford, based at Unit 9, Market Hall, MK40 1NS. 5.0 on Google from 3 reviews. Call 07769 387868.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+  ]}
+>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>About</span>
+    </nav>
+    <p class="eyebrow">Bedford painters</p>
+    <h1>About us</h1>
+    <div class="split">
+      <div class="prose">
+        <p>
+          {site.name} is a painting firm in Bedford. Google lists us as a painter at {addressLine}. The phone number is {site.phoneDisplay}. Email is {site.email}.
+        </p>
+        <p>
+          The listing says we are open 24 hours, seven days. You can call at any time. We also take work in the late afternoon and evening, which helps if you are in the house during the day, or if a shop cannot close at lunch.
+        </p>
+        <p>
+          Customers on Google have left {site.reviewCount} reviews, all five stars. One of them names Damian. He painted the stairs, hung wallpaper, and left the place spotless. Another review simply says the service was great and the job was done well. The third review is a five-star rating with no comment.
+        </p>
+        <p>
+          We paint inside and out. That includes a single room, a full exterior, and commercial premises. The photos show the practical side: sheets on the floor, a tray and steps still out, then the room put back.
+        </p>
+        <p>
+          We do not invent a long company story. If you want the work done, call or send the form and tell us the address.
+        </p>
+        <p><a class="btn" href="/contact" style="width:auto;padding-inline:1.4rem;">Ask for a price</a></p>
+      </div>
+      <div>
+        <Image src={logo} alt="Framed 777 Painting & Decorating logo, a teal shield with crossed brushes." widths={[480, 800]} sizes="(max-width: 980px) 100vw, 36vw" />
+      </div>
+    </div>
+  </article>
+
+  <section class="section wrap">
+    <h2>How a job goes</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>1. You tell us the job</h3>
+        <p>Rooms, outside areas, or a shop. A photo helps. So does the road name.</p>
+      </article>
+      <article class="card">
+        <h3>2. We look and price it</h3>
+        <p>We say what needs filling or sanding. The price matches that, not a guess from a phone call alone.</p>
+      </article>
+      <article class="card">
+        <h3>3. We cover up and paint</h3>
+        <p>Floors and furniture get sheets. You can see that in the shop and bedroom photos.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="gallery">
+      <figure>
+        <Image src={progress} alt="Painting in progress in a shop, with dust sheets and a step ladder." widths={[640, 900]} sizes="(max-width: 720px) 100vw, 45vw" />
+        <figcaption><strong>Mid job</strong> The mess stays on the sheets, not on the stock.</figcaption>
+      </figure>
+      <figure>
+        <Image src={cards} alt="A stack of 777 Painting & Decorating business cards." widths={[640, 900]} sizes="(max-width: 720px) 100vw, 45vw" />
+        <figcaption><strong>The mark</strong> Shield, 777, and crossed brushes.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <h2>What customers wrote</h2>
+    <div class="review-list">
+      {
+        reviews.map((review) => (
+          <blockquote>
+            {review.text ? <p>“{review.text}”</p> : <p>Five stars. No written comment.</p>}
+            <footer>
+              {review.name}, Google, {review.date}
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </section>
+</Base>

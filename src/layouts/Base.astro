@@ -1,0 +1,166 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { faqs, services, site } from "../data/site";
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs?: Crumb[];
+  faq?: boolean;
+  robots?: string;
+}
+
+const { title, description, crumbs = [], faq = false, robots = "index, follow, max-image-preview:large" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href.replace(/\/$/, "") || site.url;
+const ogImage = new URL("/og.jpg", site.url).href;
+
+const graph: Record<string, unknown>[] = [
+  {
+    "@type": "HousePainter",
+    "@id": `${site.url}/#business`,
+    name: site.name,
+    url: site.url,
+    image: ogImage,
+    telephone: site.phoneTel,
+    email: site.email,
+    description:
+      "Painting and decorating for homes and commercial premises in Bedford and nearby areas. Interior, exterior, wallpaper and woodwork.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.street,
+      addressLocality: site.locality,
+      addressRegion: site.region,
+      postalCode: site.postcode,
+      addressCountry: site.countryCode,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: site.lat,
+      longitude: site.lng,
+    },
+    hasMap: site.maps,
+    areaServed: [
+      "Bedford",
+      "Kempston",
+      "Biddenham",
+      "Bromham",
+      "Clapham",
+      "Goldington",
+      "Putnoe",
+      "Elstow",
+      "Wootton",
+      "Wixams",
+      "Great Denham",
+      "Shortstown",
+      "Oakley",
+      "Cardington",
+    ],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Painting and decorating",
+      itemListElement: services.map((item) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: item.nav,
+          url: `${site.url}/services/${item.slug}`,
+          areaServed: "Bedford",
+        },
+      })),
+    },
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    url: site.url,
+    name: site.name,
+    publisher: { "@id": `${site.url}/#business` },
+    inLanguage: "en-GB",
+  },
+];
+
+if (crumbs.length) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.path, site.url).href.replace(/\/$/, "") || site.url,
+    })),
+  });
+}
+
+if (faq) {
+  graph.push({
+    "@type": "FAQPage",
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  });
+}
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+    <meta name="geo.region" content="GB-BDF" />
+    <meta name="geo.placename" content="Bedford" />
+    <meta name="geo.position" content={`${site.lat};${site.lng}`} />
+    <meta name="ICBM" content={`${site.lat}, ${site.lng}`} />
+    <meta name="theme-color" content="#e10600" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="777 Painting & Decorating logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="frame">
+      <Header />
+      <main id="main">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

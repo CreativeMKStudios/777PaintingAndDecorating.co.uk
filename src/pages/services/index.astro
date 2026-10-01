@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import { services } from "../../data/site";
+
+const title = "Painting Services in Bedford | 777 Painting";
+const description =
+  "Interior, exterior, wallpaper, commercial painting, stairs and colour advice in Bedford. 777 Painting & Decorating. Call 07769 387868.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+  ]}
+>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Services</span>
+    </nav>
+    <p class="eyebrow">Bedford and nearby</p>
+    <h1>Services</h1>
+    <p class="intro">
+      We paint houses, flats and business premises. Each service below is work we actually do, based on our Google profile, reviews and photos.
+    </p>
+    <div class="cards">
+      {
+        services.map((item) => (
+          <a class="card" href={`/services/${item.slug}`}>
+            <h3>{item.nav}</h3>
+            <p>{item.lede}</p>
+          </a>
+        ))
+      }
+    </div>
+  </article>
+</Base>

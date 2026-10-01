@@ -1,0 +1,150 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import QuoteForm from "../components/QuoteForm.astro";
+import hero from "../assets/google/shop-finished.jpg";
+import gate from "../assets/google/gate.jpg";
+import bedroom from "../assets/google/bedroom.jpg";
+import shop from "../assets/google/shop-progress.jpg";
+import bathroom from "../assets/google/bathroom.jpg";
+import { areas, faqs, reviews, services, site } from "../data/site";
+
+const title = "Painting Services Bedford | 777 Painting & Decorating";
+const description =
+  "Painters in Bedford for homes and shops. Interior, exterior and wallpaper. Based at Unit 9, Market Hall, MK40 1NS. Call 07769 387868.";
+---
+
+<Base
+  title={title}
+  description={description}
+  faq
+  crumbs={[{ name: "Home", path: "/" }]}
+>
+  <p class="offer">
+    October 2026 offer, as listed on our Google profile: book this month and take 10% off.
+  </p>
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow">Enhance your property</p>
+      <h1 id="hero-title">
+        <span class="accent">Painting</span>
+        <span>Services</span>
+        <span>Bedford</span>
+      </h1>
+      <div class="lede-row">
+        <p>
+          We paint homes and shops across Bedford. Interior, exterior and wallpaper. Clear prices. A tidy finish.
+        </p>
+        <div class="rings" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <ul class="trio">
+        <li>Refresh the rooms in your home</li>
+        <li>Protect the outside of the building</li>
+        <li>Update a shop or office</li>
+      </ul>
+    </div>
+    <div class="hero-visual">
+      <Image
+        src={hero}
+        alt="A finished deep green shop wall painted by 777 Painting & Decorating, with plants and lights back in place."
+        widths={[480, 768, 1100]}
+        sizes="(max-width: 980px) 100vw, 46vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <QuoteForm />
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="reviews-title">
+    <div class="reviews">
+      <div>
+        <h2 id="reviews-title">Google reviews</h2>
+        <p class="score"><span>{site.rating}.0</span> / 5</p>
+        <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="note">
+          {site.reviewCount} reviews on Google, all five stars. Checked {site.checked}.
+        </p>
+      </div>
+      <div class="review-list">
+        {
+          reviews.map((review) => (
+            <blockquote>
+              {review.text ? <p>“{review.text}”</p> : <p>Five stars. No written comment.</p>}
+              <footer>
+                {review.name}, {review.date}
+              </footer>
+            </blockquote>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="services-title">
+    <h2 id="services-title">What we paint</h2>
+    <p class="intro">
+      Homes and commercial premises. The list matches the work on our Google profile: rooms, outside wood, wallpaper, stairs, and help choosing a colour.
+    </p>
+    <div class="cards">
+      {
+        services.map((item) => (
+          <a class="card" href={`/services/${item.slug}`}>
+            <h3>{item.nav}</h3>
+            <p>{item.lede}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="work-title">
+    <h2 id="work-title">Recent work</h2>
+    <p class="intro">
+      These photos are from our Google profile. They show the job as it was, including sheets on the floor.
+    </p>
+    <div class="gallery">
+      <figure>
+        <Image src={gate} alt="Before and after of a timber side gate, from weathered grey boards to a deep red coat." widths={[480, 720]} sizes="(max-width: 720px) 100vw, 40vw" />
+        <figcaption><strong>Side gate</strong> Grey, worn boards coated a deep red.</figcaption>
+      </figure>
+      <figure>
+        <Image src={bedroom} alt="Bedroom before and after. Patchy pink walls repainted a soft green, with the bed kept covered." widths={[480, 720]} sizes="(max-width: 720px) 100vw, 40vw" />
+        <figcaption><strong>Bedroom</strong> Patchy pink walls painted a soft green.</figcaption>
+      </figure>
+      <figure>
+        <Image src={shop} alt="A deep green shop wall during painting, with dust sheets, a paint tray and steps." widths={[480, 720]} sizes="(max-width: 720px) 100vw, 40vw" />
+        <figcaption><strong>Shop wall</strong> Sheets down, colour going on.</figcaption>
+      </figure>
+      <figure>
+        <Image src={bathroom} alt="A small bathroom painted a warm off-white, including the window reveal." widths={[480, 720]} sizes="(max-width: 720px) 100vw, 40vw" />
+        <figcaption><strong>Bathroom</strong> Walls and the window board in a warm off-white.</figcaption>
+      </figure>
+    </div>
+    <p><a href="/projects">See all the Google photos</a></p>
+  </section>
+
+  <section class="section wrap" aria-labelledby="areas-title">
+    <h2 id="areas-title">Bedford and nearby</h2>
+    <p class="intro">
+      Google lists the area as Bedford and nearby. These are the places we cover from Market Hall.
+    </p>
+    <div class="area-grid">
+      {areas.map((area) => <a href={`/areas/${area.slug}`}>{area.name}</a>)}
+    </div>
+  </section>
+
+  <section class="section wrap faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions people ask</h2>
+    {
+      faqs.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))
+    }
+  </section>
+</Base>

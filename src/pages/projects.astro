@@ -1,0 +1,102 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import cards from "../assets/google/cards.jpg";
+import gate from "../assets/google/gate.jpg";
+import bathroom from "../assets/google/bathroom.jpg";
+import bathBA from "../assets/google/bathroom-before-after.jpg";
+import shopProgress from "../assets/google/shop-progress.jpg";
+import shopFinished from "../assets/google/shop-finished.jpg";
+import logo from "../assets/google/logo-framed.jpg";
+import bedroom from "../assets/google/bedroom.jpg";
+
+const photos = [
+  {
+    src: cards,
+    title: "Business cards",
+    text: "The firm’s cards. A shield, the number 777, and two crossed brushes.",
+    alt: "Stack of 777 Painting & Decorating business cards on a dark worktop.",
+  },
+  {
+    src: gate,
+    title: "Timber gate",
+    text: "Before: grey, weathered boards. Now: a deep red coat on the same gate, next to the brick pier.",
+    alt: "Before and after of a wooden garden gate painted from weathered grey to deep red.",
+  },
+  {
+    src: bathroom,
+    title: "Bathroom",
+    text: "A small bathroom in a warm off-white, including the window reveal, sill and woodwork.",
+    alt: "Finished bathroom with off-white walls, a white basin and a window.",
+  },
+  {
+    src: bathBA,
+    title: "Red room and finished bathroom",
+    text: "The firm’s before-and-after. One photo shows a strong red room. The other shows a bathroom finished in off-white.",
+    alt: "Split photo labelled before and now: a bright red room beside a finished off-white bathroom.",
+  },
+  {
+    src: shopProgress,
+    title: "Shop, during the job",
+    text: "A deep green wall going on in a shop. Sheets cover the floor. The tray and steps are still out.",
+    alt: "Deep green wall being painted in a shop, with dust sheets, a paint tray and a step ladder.",
+  },
+  {
+    src: shopFinished,
+    title: "Shop, finished",
+    text: "The same style of green wall once the painting was done and the plants were back.",
+    alt: "Finished deep green shop wall with circular mirrors, ferns and string lights.",
+  },
+  {
+    src: bedroom,
+    title: "Bedroom",
+    text: "The old pink paint was patchy. The new colour is a soft green. The bed stayed covered.",
+    alt: "Bedroom before and after, from patchy pink walls to a soft green, with furniture covered.",
+  },
+  {
+    src: logo,
+    title: "The logo",
+    text: "The mark used on the cards and the frame: 777 Painting & Decorating.",
+    alt: "Framed logo for 777 Painting & Decorating with a shield and crossed paint brushes.",
+  },
+];
+
+const title = "Painting Projects in Bedford | 777 Painting";
+const description =
+  "Photos from the 777 Painting & Decorating Google profile. Gates, bedrooms, a bathroom and a shop wall in Bedford.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+  ]}
+>
+  <article class="wrap page-hero">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Projects</span>
+    </nav>
+    <p class="eyebrow">From the Google profile</p>
+    <h1>Projects</h1>
+    <p class="intro">
+      Every photo on this page comes from the 777 Painting &amp; Decorating Google profile. We have not swapped in stock pictures.
+    </p>
+    <div class="gallery">
+      {
+        photos.map((photo) => (
+          <figure>
+            <Image src={photo.src} alt={photo.alt} widths={[480, 800]} sizes="(max-width: 720px) 100vw, 45vw" />
+            <figcaption>
+              <strong>{photo.title}</strong>
+              {photo.text}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </article>
+</Base>

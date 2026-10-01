@@ -1,0 +1,33 @@
+---
+import { addressLine, services, site } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div>
+    <strong>{site.name}</strong>
+    <div>{addressLine}</div>
+    <div>{site.country}</div>
+    <div>{site.hoursLabel}</div>
+    <div>Google rating {site.rating}.0 from {site.reviewCount} reviews</div>
+  </div>
+  <div>
+    <strong>Talk to us</strong>
+    <div><a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a></div>
+    <div><a href={`mailto:${site.email}`}>{site.email}</a></div>
+    <div><a href={site.maps}>Directions</a></div>
+    <div><a href="/privacy">Privacy</a></div>
+  </div>
+  <div>
+    <strong>Services</strong>
+    <ul>
+      {
+        services.map((item) => (
+          <li>
+            <a href={`/services/${item.slug}`}>{item.nav}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+<a class="callbar" href={`tel:${site.phoneTel}`}>Call {site.phoneDisplay}</a>
